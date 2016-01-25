@@ -36,13 +36,14 @@ include 'inc/connection.php' ;
 				$query2 = mysqli_query($connect,$sql2);
 				
 				
-				exit ("<script>window.location='topupmain.php?success=1'; </script>"); 	
+				//exit ("<script>window.location='topupmain.php?success=1'; </script>"); 	
 			}else{
-				exit ("<script>window.location='topupmain.php?error=4'; </script>"); 	
+				//exit ("<script>window.location='topupmain.php?error=4'; </script>"); 	
 			}
 		}
 	
 	}else if($progressmode==2){
+		
 		// CARD AMOUNT // 
 			// 0= didn't get a card amounth yet / wrong cardnumber
 			// 1= 50 bath
@@ -61,51 +62,78 @@ include 'inc/connection.php' ;
 		$cardnumber = $_POST['cardnumber'];
 		
 		// ADD STATUS
-		$sql = " UPDATE `Topup` SET `amount` = '$cardprice', `status` = '2' WHERE `Topup`.`topup_id` = $topup_id;" ;
-		$query = mysqli_query($connect,$sql);
+		$sq11l = " UPDATE `Topup` SET `amount` = '$cardprice', `status` = '2' WHERE `Topup`.`topup_id` = $topup_id;" ;
+		$query11 = mysqli_query($connect,$sq11l);
 			
 		// ADD LOGS
-		$sql2 = "INSERT INTO ``logs` (`logs_id`, `account_id`, `logs_type`, `logs_desc`, `logs_date`) 
+		$sql22 = "INSERT INTO `logs` (`logs_id`, `account_id`, `logs_type`, `logs_desc`, `logs_date`) 
 		VALUES (NULL, '$account_id_of_card', 'System', 'Approve card $cardnumber ', NOW()); " ;
-		$query2 = mysqli_query($connect,$sql2);
+		$query22 = mysqli_query($connect,$sql22);
 		
 		// ADD CASH
-		switch ($cardprice) {
-					case 0:
-						break;
-					case 1:
-						$pointget = (50*$pointmultiply);
-						break;
-					case 2:
-						$pointget = (150*$pointmultiply);
-						break;
-					case 3:
-						$pointget = (300*$pointmultiply);
-						break;
-					case 4:
-						$pointget = (500*$pointmultiply);
-						break;
-					case 4:
-						$pointget = (1000*$pointmultiply);
-						break;
-		}
-		$sql3 = "
-		UPDATE `Account_id` SET `cashpoint` = `cashpoint`+$pointget WHERE `Account_id`.`account_id` = $account_id_of_card;
-		" ;
-		$query3 = mysqli_query($connect,$sql3);
-		exit ("<script>window.location='admin.php'; </script>"); 	
+			switch ($cardprice) {
+						case 0:
+							break;
+						case 1:
+							$pointget = (50*$pointmultiply);
+							break;
+						case 2:
+							$pointget = (150*$pointmultiply);
+							break;
+						case 3:
+							$pointget = (300*$pointmultiply);
+							break;
+						case 4:
+							$pointget = (500*$pointmultiply);
+							break;
+						case 4:
+							$pointget = (1000*$pointmultiply);
+							break;
+			}
+			$sql3 = "
+			UPDATE `Account_id` SET `cashpoint` = `cashpoint`+$pointget WHERE `Account_id`.`account_id` = $account_id_of_card;
+			" ;
+			$query3 = mysqli_query($connect,$sql3);
+	
+		
 		// ADD EVENT POINT
-		if($eventstatus == 1){
-			
-			
-			
-		}
+			if($eventstatus == 1){
+				switch ($cardprice) {
+						case 0:
+							break;
+						case 1:
+							$eventpointget = (50*$eventpointmultiply);
+							break;
+						case 2:
+							$eventpointget = (150*$eventpointmultiply);
+							break;
+						case 3:
+							$eventpointget = (300*$eventpointmultiply);
+							break;
+						case 4:
+							$eventpointget = (500*$eventpointmultiply);
+							break;
+						case 4:
+							$eventpointget = (1000*$eventpointmultiply);
+							break;
+				}
+				$sql4 = "SELECT * FROM `event` WHERE `account_id` = $account_id_of_card" ;
+				$query4 = mysqli_query($connect,$sql4);
+				$row4 = mysqli_fetch_array($query4);
+				$num4 = mysqli_num_rows($query4); 
+
+				If ($num4 == 1) {
+					
+				
+				}else{
+					$sql6 = "INSERT INTO `event` (`ev_id`, `account_id`, `point`, `pont_all`) 
+					VALUES (NULL, '$account_id_of_card', '$eventpointget', '$eventpointget');" ;
+					$query6 = mysqli_query($connect,$sql6);
+				}
+			}
 		
 		
 	}	
-
-
-exit ("<script>window.location='index.php'; </script>"); 	
 
 
 ?>
