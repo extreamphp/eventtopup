@@ -164,7 +164,7 @@ include 'inc/connection.php' ;
 					case 4:
 						echo "500 บาท";
 						break;
-					case 4:
+					case 5:
 						echo "1000 บาท";
 						break;
 				}

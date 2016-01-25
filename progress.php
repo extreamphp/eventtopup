@@ -36,9 +36,9 @@ include 'inc/connection.php' ;
 				$query2 = mysqli_query($connect,$sql2);
 				
 				
-				//exit ("<script>window.location='topupmain.php?success=1'; </script>"); 	
+				exit ("<script>window.location='topupmain.php?success=1'; </script>"); 	
 			}else{
-				//exit ("<script>window.location='topupmain.php?error=4'; </script>"); 	
+				exit ("<script>window.location='topupmain.php?error=4'; </script>"); 	
 			}
 		}
 	
@@ -53,7 +53,7 @@ include 'inc/connection.php' ;
 			// 5= 1000 bath
 		///////////////////////////////////////////////////////////
 		 // SETTING IN config.php files
-			include 'config.php' ;
+		include 'config.php' ;
 		///////////////////////////////////////////////////////////
 		
 		$cardprice = $_POST['cardprice'];
@@ -62,7 +62,7 @@ include 'inc/connection.php' ;
 		$cardnumber = $_POST['cardnumber'];
 		
 		// ADD STATUS
-		$sq11l = " UPDATE `Topup` SET `amount` = '$cardprice', `status` = '2' WHERE `Topup`.`topup_id` = $topup_id;" ;
+		$sq11l = " UPDATE `Topup` SET `amount` = '$cardprice', `status` = '2',`dateupdate`= NOW() WHERE `Topup`.`topup_id` = $topup_id;" ;
 		$query11 = mysqli_query($connect,$sq11l);
 			
 		// ADD LOGS
@@ -71,6 +71,7 @@ include 'inc/connection.php' ;
 		$query22 = mysqli_query($connect,$sql22);
 		
 		// ADD CASH
+			$pointget=0 ;
 			switch ($cardprice) {
 						case 0:
 							break;
@@ -86,10 +87,11 @@ include 'inc/connection.php' ;
 						case 4:
 							$pointget = (500*$pointmultiply);
 							break;
-						case 4:
+						case 5:
 							$pointget = (1000*$pointmultiply);
 							break;
 			}
+			
 			$sql3 = "
 			UPDATE `Account_id` SET `cashpoint` = `cashpoint`+$pointget WHERE `Account_id`.`account_id` = $account_id_of_card;
 			" ;
@@ -98,6 +100,7 @@ include 'inc/connection.php' ;
 		
 		// ADD EVENT POINT
 			if($eventstatus == 1){
+				$eventpointget =0;
 				switch ($cardprice) {
 						case 0:
 							break;
@@ -113,10 +116,12 @@ include 'inc/connection.php' ;
 						case 4:
 							$eventpointget = (500*$eventpointmultiply);
 							break;
-						case 4:
+						case 5:
 							$eventpointget = (1000*$eventpointmultiply);
 							break;
 				}
+				
+				
 				$sql4 = "SELECT * FROM `event` WHERE `account_id` = $account_id_of_card" ;
 				$query4 = mysqli_query($connect,$sql4);
 				$row4 = mysqli_fetch_array($query4);
@@ -124,15 +129,19 @@ include 'inc/connection.php' ;
 
 				If ($num4 == 1) {
 					
-				
+					$sql5 = "UPDATE `event` SET `point` = `point`+$eventpointget, `pont_all` = `pont_all`+$eventpointget 
+					WHERE `event`.`account_id` = $account_id_of_card;" ;
+					$query5 = mysqli_query($connect,$sql5);
 				}else{
 					$sql6 = "INSERT INTO `event` (`ev_id`, `account_id`, `point`, `pont_all`) 
 					VALUES (NULL, '$account_id_of_card', '$eventpointget', '$eventpointget');" ;
 					$query6 = mysqli_query($connect,$sql6);
 				}
+				
+				
 			}
 		
-		
+		exit ("<script>window.location='admin.php'; </script>"); 	
 	}	
 
 

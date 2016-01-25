@@ -59,8 +59,9 @@ include 'inc/connection.php' ;
 	  echo $_SESSION['username'] ; 
 	  ?>(<a href="logout.php">ออกจากระบบ</a>)
 		
-	
-	 <div class="col-md-12">
+	<br>
+	แสดง 20 รายการความเคลื่อนไหวล่าสุด
+	<br> <div class="col-md-12">
 	 
 	 <?php
 		$account_id=$_SESSION['account_id'];
@@ -76,7 +77,6 @@ include 'inc/connection.php' ;
               <tr>
                 <th>ลำดับ</th>
                 <th>การดำเนินการ</th>
-				<th>โดย</th>
                 <th>รายละเอียด</th>
                 <th>วันที่</th>
               </tr>
@@ -90,16 +90,6 @@ include 'inc/connection.php' ;
               <tr>
                 <td><?php echo $count; ?></td>
                 <td><?php echo $row2['logs_type'] ;?></td>
-				<td><?php 
-				$account_id = $row2['account_id']."";
-				$current_id = $_SESSION['account_id']."" ;
-
-				if(strcmp($current_id,$account_id)){
-						echo "User" ; 
-				}else{
-						echo "System" ; 
-				}
-				?>
 				<td><?php echo $row2['logs_desc'] ;?></td>
 				<td><?php echo $row2['logs_date'] ;?></td>
               </tr>

@@ -74,6 +74,7 @@ include 'inc/connection.php' ;
               <tr>
                 <th>ลำดับ</th>
                 <th>รหัสบัตร(12 หลัก)</th>
+				<th>AccountID</th>
                 <th>มูลค่าบัตร</th>
                 <th>อัพเดทสถานะ</th>
               </tr>
@@ -103,7 +104,7 @@ include 'inc/connection.php' ;
               <tr>
                 <td><?php echo $count; ?></td>
                 <td><?php echo $row2['cardnumber'] ;?></td>
-				
+				<td><?php echo $row2['account_id'] ;?></td>
 				<form method="post" action="progress.php">
                 <td>
 				<select class="form-control" name="cardprice">
