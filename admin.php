@@ -104,10 +104,21 @@ include 'inc/connection.php' ;
                 <td><?php echo $count; ?></td>
                 <td><?php echo $row2['cardnumber'] ;?></td>
 				
-				
-                <td><?php echo "listdropdwon";?></td>
+				<form method="post" action="progress">
+                <td>
+				<select class="form-control" name="cardprice">
+				  <option value="1">50 บาท</option>
+				  <option value="2">150 บาท</option>
+				  <option value="3">300 บาท</option>
+				  <option value="4">500 บาท</option>
+				  <option value="5">1,000 บาท</option>
+				</select>
+				</td>
+				<input type=hidden name="mode" value="2">
+				<input type=hidden name="account_id_of_card" value="<?php echo $row2['account_id'] ;?>" >
 				<td><button type="submit" class="btn btn-xs btn-primary">Approve</button></td>  
-				
+			
+				</form>
 				
 				
               </tr>
