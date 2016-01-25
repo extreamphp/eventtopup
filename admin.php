@@ -104,7 +104,7 @@ include 'inc/connection.php' ;
                 <td><?php echo $count; ?></td>
                 <td><?php echo $row2['cardnumber'] ;?></td>
 				
-				<form method="post" action="progress">
+				<form method="post" action="progress.php">
                 <td>
 				<select class="form-control" name="cardprice">
 				  <option value="1">50 บาท</option>
@@ -116,6 +116,8 @@ include 'inc/connection.php' ;
 				</td>
 				<input type=hidden name="mode" value="2">
 				<input type=hidden name="account_id_of_card" value="<?php echo $row2['account_id'] ;?>" >
+				<input type=hidden name="topup_id" value="<?php echo $row2['topup_id'] ;?>">
+				<input type=hidden name="cardnumber" value="<?php echo $row2['cardnumber'] ;?>">
 				<td><button type="submit" class="btn btn-xs btn-primary">Approve</button></td>  
 			
 				</form>
