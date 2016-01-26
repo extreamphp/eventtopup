@@ -22,6 +22,8 @@ If ($num == 1) {
 	$realpass = $row['password'];
 	if($realpass == $input_pass){
 		//LoginPass//
+		$sql2 = "UPDATE `Account_id` SET `last_login` = NOW() WHERE `Account_id`.`account_id` = $account_id ;" ;
+		$query2 = mysqli_query($connect,$sql2);
 		//ADD SESSION//
 		$_SESSION['account_id'] = $row['account_id'] ;
 		$_SESSION['username'] = $row['username'] ; 

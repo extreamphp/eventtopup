@@ -5,7 +5,19 @@ if($_SESSION['account_id'] == null) {
 	exit ("<script>window.location='index.php'; </script>");
 }
 include 'inc/connection.php' ;
+$itemid=$_GET['itemid'];
 
+if($itemid != ""){
+	
+	$sql7 = "SELECT `item_id`,`item_name`,`item_pic`,`item_desc` FROM `item_chance` WHERE `item_id`=$itemid" ;
+	$query7 = mysqli_query($connect,$sql7);
+	$row7 = mysqli_fetch_array($query7);
+	$num7 = mysqli_num_rows($query7);
+	$openmodal = 1;
+	
+}else{
+	$openmodal = 0;
+}
 
 ?>
 <!DOCTYPE html>
@@ -25,6 +37,15 @@ include 'inc/connection.php' ;
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  
+  
+	<?php if($openmodal==1){?>
+		<script type="text/javascript">
+			$(window).load(function(){
+				$('#itemmodal').modal('show');
+			});
+		</script>
+	<?php } ?>
   
   </head>
 
@@ -85,7 +106,7 @@ include 'inc/connection.php' ;
 		
 		</div>
 		  <br>
-		  คุณเหลือสิทธิ์ในการเปิดกล่องอีก   <?php echo $box;?> กล่อง <br>
+		  คุณเหลือสิทธิ์ในการเปิดกล่องอีก   <?php echo $box;?> กล่อง <?php echo $openmodal ; ?><br>
 		<div class="panel panel-success">
             <div class="panel-heading">
               <h3 class="panel-title">: สถานะ ID : </h3>
@@ -109,14 +130,14 @@ include 'inc/connection.php' ;
 		  
 		<div class="panel panel-success">
             <div class="panel-heading">
-              <h3 class="panel-title">: ประวัติการเปิดกล่อง : </h3>
+              <h3 class="panel-title">: ประวัติการเปิดกล่อง(20 กล่องล่าสุด) : </h3>
             </div>
             <div class="panel-body">
            <div class="col-md-12">
 	 
 	 <?php
 		$account_id=$_SESSION['account_id'];
-		$sql2 = "SELECT * FROM `logs` WHERE `logs_type` LIKE 'event1' AND`account_id` = $account_id ORDER BY `logs`.`logs_date` DESC" ;
+		$sql2 = "SELECT * FROM `logs` WHERE `logs_type` LIKE 'Event' AND`account_id` = $account_id ORDER BY `logs`.`logs_date` DESC  LIMIT 0,20" ;
 		$query2 = mysqli_query($connect,$sql2);
 		$row2 = mysqli_fetch_array($query2);
 		$num2 = mysqli_num_rows($query2); 
@@ -127,7 +148,6 @@ include 'inc/connection.php' ;
             <thead>
               <tr>
                 <th>ลำดับ</th>
-                <th>การดำเนินการ</th>
                 <th>รายละเอียด</th>
                 <th>วันที่</th>
               </tr>
@@ -140,7 +160,7 @@ include 'inc/connection.php' ;
            
               <tr>
                 <td><?php echo $count; ?></td>
-                <td><?php echo $row2['logs_type'] ;?></td>
+             
 				<td><?php echo $row2['logs_desc'] ;?></td>
 				<td><?php echo $row2['logs_date'] ;?></td>
               </tr>
@@ -180,6 +200,52 @@ include 'inc/connection.php' ;
       
     </div>
   </div>
+  
+  <?php if($openmodal==1){?>
+  <!-- Item Modal -->
+  <div class="modal fade" id="itemmodal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+   
+	<?php  if($itemid==0){ ?>
+		
+		  <div class="modal-body">
+		
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">×</a>
+				<h2>เสียใจด้วย คุณไม่ได้ไอเทมอะไรเลย</h2>
+			</div><br>
+			<img src="pic/emptybox.jpg">
+			<p>ลองใหม่กล่องหน้านะ</p>
+			
+		  <button type="button" class="btn btn-default" data-dismiss="modal">ตกลง</button>
+        </div>
+		
+	<?php }else{?>
+   
+
+        <div class="modal-body">
+		
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">×</a>
+				<h2>คุณได้รับไอเทม <?php echo $row7['item_name'];?></h2>
+			</div><br>
+			<img src="pic/<?php echo $row7['item_pic'];?>">
+			<p><?php echo $row7['item_desc'];?></p>
+			
+		  <button type="button" class="btn btn-default" data-dismiss="modal">ตกลง</button>
+        </div>
+ 
+	<?php } ?>
+
+ 
+      </div>
+      
+    </div>
+  </div>
+  <?php } ?>
   
 </div>
 	
