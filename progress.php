@@ -2,6 +2,9 @@
 session_start();
 include 'inc/connection.php' ;
 	
+
+	
+	
 	$progressmode = $_POST['mode'];
 	$account_id = $_SESSION['account_id'] ;
 	$cardnumber = $_POST['cardnumber'];
@@ -9,7 +12,6 @@ include 'inc/connection.php' ;
 	$cardnumber = clean_input($cardnumber);
 	////////////////////////////
 	$cardlong = strlen($cardnumber) ;
-	
 	
 	if($progressmode==1){
 	//ADD New cards	

@@ -54,7 +54,15 @@ include 'inc/connection.php' ;
     <div class="container">
 	
       <div class="starter-template">
-	  
+	  <?php
+			$account_id=$_SESSION['account_id'];
+			$sql = "SELECT `point` FROM `event` WHERE `account_id` = $account_id" ;
+			$query = mysqli_query($connect,$sql);
+			$row = mysqli_fetch_array($query);
+			$num = mysqli_num_rows($query);	
+			$playerpoint = $row['point'];
+			$box = floor($playerpoint/50);
+	  ?>
 	
 	  <br>
 	  ตอนนี้คุณเข้าสู่ระบบด้วย ID : <?php
@@ -69,10 +77,15 @@ include 'inc/connection.php' ;
 		</div>
 		
 		<div class="box2" >
-		<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"> เปิดกล่อง </button>
+		<?php if($box >0) { ?>
+			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"> เปิดกล่อง </button>
+		<?php }else{ ?>
+			<h2><span class="label label-default">&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;</span></h2>
+		<?php } ?>
+		
 		</div>
 		  <br>
-		  คุณเหลือสิทธิ์ในการเปิดกล่องอีก   กล่อง <br>
+		  คุณเหลือสิทธิ์ในการเปิดกล่องอีก   <?php echo $box;?> กล่อง <br>
 		<div class="panel panel-success">
             <div class="panel-heading">
               <h3 class="panel-title">: สถานะ ID : </h3>
@@ -80,17 +93,12 @@ include 'inc/connection.php' ;
             <div class="panel-body">
               :: ID :: <br>
 			 <strong> <?php echo $_SESSION['username'] ; ?> </strong>
-			  <br>
+			  <br><br>
 			  :: Point กิจกรรมคงเหลือ :: <br>
 			  <?php 		
-				$account_id=$_SESSION['account_id'];
-				$sql = "SELECT `point` FROM `event` WHERE `account_id` = $account_id" ;
-				$query = mysqli_query($connect,$sql);
-				$row = mysqli_fetch_array($query);
-				$num = mysqli_num_rows($query);
 				
 				if($num>0){
-					echo $row['point'];
+					echo $playerpoint;
 				}else{
 					echo "0";
 				}
@@ -98,6 +106,56 @@ include 'inc/connection.php' ;
 				?>  Point </strong>
             </div>
           </div>
+		  
+		<div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">: ประวัติการเปิดกล่อง : </h3>
+            </div>
+            <div class="panel-body">
+           <div class="col-md-12">
+	 
+	 <?php
+		$account_id=$_SESSION['account_id'];
+		$sql2 = "SELECT * FROM `logs` WHERE `logs_type` LIKE 'event1' AND`account_id` = $account_id ORDER BY `logs`.`logs_date` DESC" ;
+		$query2 = mysqli_query($connect,$sql2);
+		$row2 = mysqli_fetch_array($query2);
+		$num2 = mysqli_num_rows($query2); 
+	 ?>
+	 
+	 
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>ลำดับ</th>
+                <th>การดำเนินการ</th>
+                <th>รายละเอียด</th>
+                <th>วันที่</th>
+              </tr>
+            </thead>
+			 <tbody>
+			<?php
+			$count = 1 ; 
+			while($num2>0){
+			?>
+           
+              <tr>
+                <td><?php echo $count; ?></td>
+                <td><?php echo $row2['logs_type'] ;?></td>
+				<td><?php echo $row2['logs_desc'] ;?></td>
+				<td><?php echo $row2['logs_date'] ;?></td>
+              </tr>
+         
+			<?php 
+				$count++;
+				$num2--;
+				$row2 = mysqli_fetch_array($query2);
+			} 
+			?>
+			   </tbody>
+          </table>
+        </div>
+            </div>
+        </div>
 	
 
   <!-- Modal -->
@@ -109,8 +167,13 @@ include 'inc/connection.php' ;
    
         <div class="modal-body">
           <p>ต้องการเปิดจริงๆใช่ไหม?</p>
-		   <button type="button" class="btn btn-success">เปิดเลย!</button>
-		   <button type="button" class="btn btn-default" data-dismiss="modal">ทำใจแป้บนึง</button>
+			<form action="random.php" method="post">
+			<button type="submit" class="btn btn-success">เปิดเลย!</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal">ทำใจแป้บนึง</button>
+			</form>
+
+
+		 
         </div>
  
       </div>
