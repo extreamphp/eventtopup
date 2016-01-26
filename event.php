@@ -16,7 +16,7 @@ include 'inc/connection.php' ;
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="favicon.ico">
 
     <title>Game Topup & Reward System</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -82,7 +82,20 @@ include 'inc/connection.php' ;
 			 <strong> <?php echo $_SESSION['username'] ; ?> </strong>
 			  <br>
 			  :: Point กิจกรรมคงเหลือ :: <br>
-			  <?php echo $_SESSION['username'] ; ?>  Point </strong>
+			  <?php 		
+				$account_id=$_SESSION['account_id'];
+				$sql = "SELECT `point` FROM `event` WHERE `account_id` = $account_id" ;
+				$query = mysqli_query($connect,$sql);
+				$row = mysqli_fetch_array($query);
+				$num = mysqli_num_rows($query);
+				
+				if($num>0){
+					echo $row['point'];
+				}else{
+					echo "0";
+				}
+
+				?>  Point </strong>
             </div>
           </div>
 	
@@ -117,8 +130,8 @@ include 'inc/connection.php' ;
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="bootstrap/assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>

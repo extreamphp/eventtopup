@@ -5,7 +5,7 @@ if($_SESSION['account_id'] == null) {
 	exit ("<script>window.location='index.php'; </script>");
 }
 include 'inc/connection.php' ;
-
+include 'config.php' ;
 
 ?>
 <!DOCTYPE html>
@@ -80,7 +80,8 @@ include 'inc/connection.php' ;
 	  </form>
 	  	</div> <!--Div topup session close -->
 	  <br>
-	  <div style="background-color:#515151 ;height:30px; border-radius:20px;">
+	  <div style="background-color:#515151 ;height:80px; border-radius:20px;">
+	  <br>
 		<?php
 		// SHOW CASH Point
 		$account_id = $_SESSION['account_id'] ; 
@@ -89,7 +90,7 @@ include 'inc/connection.php' ;
 		$row = mysqli_fetch_array($query);
 		?>
 		
-			<p style='color: #FFFFFF; font-style: oblique; text-align:center;'> Cash Point ที่มี : <?php echo $row['cashpoint'] ;?> Point</p>
+			<p style='color: #FFFFFF; font-style: oblique; text-align:center;'> Cash Point ที่มี : <?php echo $row['cashpoint'] ;?> Point<br> (เรตการเติมเงินปัจจุบัน 1 บาท = <?php echo $pointmultiply ;?>point)</p>
 			
 		</div>   
 	  
@@ -216,10 +217,10 @@ include 'inc/connection.php' ;
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="bootstrap/assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
