@@ -65,7 +65,7 @@ include 'inc/connection.php' ;
 	 
 	 <?php
 		$account_id=$_SESSION['account_id'];
-		$sql2 = "SELECT * FROM `logs` WHERE `account_id` = $account_id ORDER BY `logs`.`logs_date` DESC" ;
+		$sql2 = "SELECT * FROM `logs` WHERE `account_id` = $account_id ORDER BY `logs`.`logs_date` DESC LIMIT 0,20" ;
 		$query2 = mysqli_query($connect,$sql2);
 		$row2 = mysqli_fetch_array($query2);
 		$num2 = mysqli_num_rows($query2); 
