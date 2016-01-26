@@ -106,7 +106,7 @@ if($itemid != ""){
 		
 		</div>
 		  <br>
-		  คุณเหลือสิทธิ์ในการเปิดกล่องอีก   <?php echo $box;?> กล่อง <?php echo $openmodal ; ?><br>
+		  คุณเหลือสิทธิ์ในการเปิดกล่องอีก   <?php echo $box;?> กล่อง<br>
 		<div class="panel panel-success">
             <div class="panel-heading">
               <h3 class="panel-title">: สถานะ ID : </h3>
