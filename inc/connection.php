@@ -2,9 +2,9 @@
 
 
 	$host = "localhost" ;
-	$userroot = "freeter1_extreme" ;
-	$passroot = "extreme" ;
-	$dbname = "freeter1_extreme" ;
+	$userroot = "username" ;
+	$passroot = "pass" ;
+	$dbname = "databasename" ;
 	$connect = mysqli_connect($host,$userroot,$passroot);
 	mysqli_select_db($connect,$dbname);
 	mysqli_query($connect,"set names tis-620") ; 
